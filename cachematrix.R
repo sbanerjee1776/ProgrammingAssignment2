@@ -1,14 +1,14 @@
 ## makeCacheMatrix amd cacheSolve work together
 ## makeCacheMatrix takes a matrix and caches its inverse
 ## usage: a <- makeCacheMatrix(x) where x is a square matrix
-##        if matrix is non-invertible, the function exits with en arror message
+##        if matrix is non-invertible, the function exits with an error message
 ##
 ## cacheSolve takes the object returned by makeCacheMatrix and computes
-##        the inverse if it does not altready exist
+##        the inverse if it does not already exist
 ## usage: inv <- cacheSolve(a)
 
-## Write a short comment describing this function
-## Takes a quare matrix and checks it it is invertible
+
+## Takes a square matrix and checks it it is invertible
 ## If it is invertible it creates a list with four functions:
 ## setMatrix: sets the value of the matrix
 ## getMatrix: gets the value of the matrix
@@ -22,12 +22,16 @@ makeCacheMatrix <- function(x = matrix()) {
     print('Matrix is singular: Inverse does not exist! Please use another matrix')
     return
   }
+  
+  # Getter and Setter Functions for the matrix x
   invMatrix <- NULL
   setMatrix <- function(y){
     x <<- y
     invMatrix <<- NULL
   }
   getMatrix <- function()x
+  
+  # Getter and Setter functions for matrix inverse
   setInv <- function(inVerse) invMatrix <<- inVerse
   getInv <- function()invMatrix
   
@@ -41,15 +45,17 @@ makeCacheMatrix <- function(x = matrix()) {
 ## If the inverse does not exist it is calculated and returned
 
 cacheSolve <- function(x, ...) {
-    ## Return a matrix that is the inverse of 'x'
-    invMatrix <- x$getInv()
+    ## Return an inverse of the matrix that is in the object 'x' created by makeCacheMatrix
+  
+    invMatrix <- x$getInv()  # Get the inverse of the matrix
+    
     if(!is.null(invMatrix)){
-      message("getting cached data")
-    return(invMatrix)
+      message("getting cached inverse") # Get cached value if not NULL
+    return(invMatrix)                   # Return the cached value
   }
-  data <- x$getMatrix()
-  print(data)
+  data <- x$getMatrix()     # Get the matrix to be inverted
+  
   invMatrix <- solve(data)  # Computes the inverse
-  x$setInv(invMatrix)
-  invMatrix
+  x$setInv(invMatrix)       # Sets the inverse
+  invMatrix                 # Returns the inverse
 }
